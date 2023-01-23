@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "330302610868",
+    "project_id": "loginejemplof",
+    "storage_bucket": "loginejemplof.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330302610868:android:b5ccc3fb16ba19c1d626e1",
+        "android_client_info": {
+          "package_name": "www.iesmurgi.loginfirebase_pablo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330302610868-741147i8rpf8ah1eu3gjgp6vpfe1crn2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "www.iesmurgi.loginfirebase_pablo",
+            "certificate_hash": "b0d873c9d521b771a360843acd8461516e4760fa"
+          }
+        },
+        {
+          "client_id": "330302610868-9vcqkohilsvhs40sdt75l1acc31vjcuj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFSRzRclaCjc4vt-IsRyk4ogB8TkQS1iE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330302610868-9vcqkohilsvhs40sdt75l1acc31vjcuj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
