@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bind: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivityMainBinding.inflate(layoutInflater)
@@ -29,7 +31,12 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = bind.toolbar
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         toolbar.title = "Nombre de la Aplicación"
+        val btnLogueo : Button = bind.btnLogueo
+        btnLogueo.setOnClickListener{
+            iniciarSesion(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
+        }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -38,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(www.iesmurgi.loginfirebase_pablo.R.menu.acerca_de, menu)
@@ -70,15 +78,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun iniciarSesion(email:String, clave: String)  {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(
-            email,clave
-        ).addOnCompleteListener{
+        try {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, clave)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(this, "HAS INICIADO SESION", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "ERROR: NO HAS INICIADO SESION", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        } catch (e: Exception) {
 
-            if (it.isSuccessful){
-                //abrirPerfil()
-            }else{
-                Toast.makeText(getApplicationContext(),it.exception.toString(), Toast.LENGTH_SHORT)
-            }
+            Toast.makeText(this, "Error al iniciar sesión: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
