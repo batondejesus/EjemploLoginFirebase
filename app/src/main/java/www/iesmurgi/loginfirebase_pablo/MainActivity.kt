@@ -3,11 +3,15 @@ package www.iesmurgi.loginfirebase_pablo
 import android.R
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -29,12 +33,37 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         val toolbar: Toolbar = bind.toolbar
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        toolbar.title = "Nombre de la Aplicación"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val btnLogueo : Button = bind.btnLogueo
         btnLogueo.setOnClickListener{
             iniciarSesion(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
         }
+
+        val btnRegister : Button = bind.btnRegister
+        btnRegister.setOnClickListener{
+            crearNuevoUsuario(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
+        }
+
+        val etPassword : EditText = bind.etPassword
+        etPassword.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // Verifica si el contenido tiene 6 o más caracteres
+                if (s?.length!! >= 6) {
+                    // Si tiene 6 o más caracteres, cambia el color del fondo a verde
+                    etPassword.setBackgroundColor(Color.WHITE)
+                } else {
+                    // Si tiene menos de 6 caracteres, cambia el color del fondo a rojo
+                    etPassword.setBackgroundColor(Color.RED)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
     }
 
 
@@ -70,9 +99,10 @@ class MainActivity : AppCompatActivity() {
         ).addOnCompleteListener{
 
             if (it.isSuccessful){
-                //abrirPerfil()
+                Toast.makeText(this, "Se ha creado un nuevo usuario", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(getApplicationContext(),"Email o contraseña incorrectos", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
+                print(it.result)
             }
         }
     }
