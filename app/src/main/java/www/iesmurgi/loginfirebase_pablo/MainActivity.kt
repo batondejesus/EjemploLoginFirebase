@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(bind.root)
         auth = FirebaseAuth.getInstance()
 
-        val toolbar: Toolbar = bind.toolbar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         val btnLogueo : Button = bind.btnLogueo
         btnLogueo.setOnClickListener{
@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 // Verifica si el contenido tiene 6 o más caracteres
                 if (s?.length!! >= 6) {
-                    // Si tiene 6 o más caracteres, cambia el color del fondo a verde
-                    etPassword.setBackgroundColor(Color.WHITE)
+                    // Si tiene 6 o más caracteres, cambia el color del borde a verde
+                    etPassword.setBackgroundResource(www.iesmurgi.loginfirebase_pablo.R.drawable.rounded_edittext)
                 } else {
-                    // Si tiene menos de 6 caracteres, cambia el color del fondo a rojo
-                    etPassword.setBackgroundColor(Color.RED)
+                    // Si tiene menos de 6 caracteres, cambia el color del borde a rojo
+                    etPassword.setBackgroundResource(www.iesmurgi.loginfirebase_pablo.R.drawable.rounded_edittext_error)
                 }
             }
 
@@ -92,27 +92,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun crearNuevoUsuario(email: String, clave: String) {
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-            email, clave
-        ).addOnCompleteListener{
-
-            if (it.isSuccessful){
-                Toast.makeText(this, "Se ha creado un nuevo usuario", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
-                print(it.result)
-            }
-        }
-    }
 
     fun iniciarSesion(email:String, clave: String)  {
         try {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, clave)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "HAS INICIADO SESION", Toast.LENGTH_SHORT).show()
+
                     } else {
                         Toast.makeText(this, "ERROR: NO HAS INICIADO SESION", Toast.LENGTH_SHORT).show()
                     }
@@ -137,5 +124,11 @@ class MainActivity : AppCompatActivity() {
             .set(data)
             .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot correctamente escrito") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error al escribir el documento", e) }
+    }
+
+    fun goToIniciarSesion(){
+        val enviar1 = Intent(this, PerfilActivity::class.java)
+        enviar1.putExtra("nombre","a")
+        startActivity(enviar1)
     }
 }
