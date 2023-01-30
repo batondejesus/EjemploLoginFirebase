@@ -15,25 +15,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.157"
+        app:layout_constraintVertical_bias="0.089"
         app:srcCompat="@drawable/instagram_logo" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etUser"
         android:layout_width="325dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edittext"
+        android:backgroundTint="#00FFFFFF"
         android:backgroundTintMode="add"
         android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
+        android:hint="Nombre de usuario"
+        android:inputType="textPersonName"
         android:padding="15dp"
         android:textColor="#000000"
+        android:textColorHint="#CDCDCD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.577" />
+        app:layout_constraintVertical_bias="0.257" />
 
     <EditText
         android:id="@+id/etUsuario"
@@ -47,41 +49,30 @@
         android:inputType="textPersonName"
         android:padding="15dp"
         android:textColor="#000000"
+        android:textColorHint="#CDCDCD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.385" />
 
     <EditText
-        android:id="@+id/etUsuario2"
+        android:id="@+id/etPassword"
         android:layout_width="325dp"
         android:layout_height="51dp"
         android:background="@drawable/rounded_edittext"
-        android:backgroundTint="#00FFFFFF"
         android:backgroundTintMode="add"
         android:ems="10"
-        android:hint="Nombre de usuario"
-        android:inputType="textPersonName"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
         android:padding="15dp"
         android:textColor="#000000"
+        android:textColorHint="#CDCDCD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.322" />
-
-    <Button
-        android:id="@+id/btnLogueo"
-        android:layout_width="325dp"
-        android:layout_height="51dp"
-        android:backgroundTint="#4eb2f7"
-        android:text="Entrar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.832" />
+        app:layout_constraintVertical_bias="0.513" />
 
     <Button
         android:id="@+id/btnRegister"
@@ -96,28 +87,30 @@
         app:layout_constraintVertical_bias="0.948" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="97dp"
-        android:layout_height="81dp"
+        android:id="@+id/imagen_perfil"
+        android:layout_width="325dp"
+        android:layout_height="166dp"
+        android:backgroundTintMode="add"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.706"
-        app:srcCompat="@drawable/googleg_standard_color_18" />
+        app:layout_constraintVertical_bias="0.727" />
 
     <Button
         android:id="@+id/btnImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#000000"
+        android:backgroundTintMode="add"
         android:text="Elegir foto de perfil"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.785"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.693" />
+        app:layout_constraintVertical_bias="0.857" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

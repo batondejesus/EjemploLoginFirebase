@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         val btnRegister : Button = bind.btnRegister
         btnRegister.setOnClickListener{
-            crearNuevoUsuario(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
+            val enviar1 = Intent(this, RegistroActivity::class.java)
+            startActivity(enviar1)
         }
 
         val etPassword : EditText = bind.etPassword
