@@ -1,32 +1,25 @@
 package www.iesmurgi.loginfirebase_pablo
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
-import com.google.firebase.storage.FirebaseStorage
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.storage.UploadTask
-import com.google.firebase.database.FirebaseDatabase
 import www.iesmurgi.loginfirebase_pablo.databinding.ActivityRegistroBinding
-import java.io.IOException
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class RegistroActivity : AppCompatActivity() {
 
     var auth : FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val PICK_IMAGE_REQUEST = 1
+
     private lateinit var bind : ActivityRegistroBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,30 +27,10 @@ class RegistroActivity : AppCompatActivity() {
         setContentView(bind.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val btnImagen: Button = bind.btnImagen
-        val imagenPerfil: ImageView = bind.imagenPerfil
-
-        btnImagen.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
-        }
 
         val btnRegister : Button = bind.btnRegister
         btnRegister.setOnClickListener{
             crearNuevoUsuario(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
-            val user = auth.currentUser
-            val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(bind.etUser.text.toString())
-                .build()
-            user?.updateProfile(profileUpdates)
-                ?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Se ha añadido el username", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "NO Se ha añadido el username", Toast.LENGTH_SHORT).show()
-                    }
-                }
         }
 
         val etPassword : EditText = bind.etPassword
@@ -82,68 +55,44 @@ class RegistroActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            val filePath: Uri = data.data!!
-            try {
-                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                bind.imagenPerfil.setImageBitmap(bitmap)
-                bind.imagenPerfil.visibility = View.VISIBLE
-
-
-                val storageRef = FirebaseStorage.getInstance().reference
-                val imageRef = storageRef.child("images/${UUID.randomUUID()}.jpg")
-                var uploadTask = imageRef.putFile(filePath)
-
-                uploadTask.addOnFailureListener {
-                    // Handle unsuccessful uploads
-                }.addOnSuccessListener {
-                    // Obtener la URL de la imagen subida
-                    val uploadTask = storageRef.putFile(filePath)
-                    val imageUrl = uploadTask.continueWithTask { task ->
-                        if (!task.isSuccessful) {
-                            task.exception?.let {
-                                throw it
-                            }
-                        }
-                        imageRef.downloadUrl
-                    }.addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val downloadUri = task.result
-                            // Guarda la URL de la imagen en la base de datos de Firebase
-                            val user = FirebaseAuth.getInstance().currentUser
-                            val userRef = FirebaseDatabase.getInstance().getReference("users/${user?.uid}")
-                            userRef.child("profile_image_url").setValue(downloadUri.toString())
-                        } else {
-                            // Handle unsuccessful download
-                        }
-                    }
-            }
-            }catch (e: IOException){
-                print(e.printStackTrace())
-            }
-        }
-        }
-
-
-
+    private fun isValidEmail(email: String): Boolean {
+        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        val pattern: Pattern = Pattern.compile(emailPattern)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
+    }
 
 
     fun crearNuevoUsuario(email: String, clave: String) {
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-            email, clave
-        ).addOnCompleteListener{
-
-            if (it.isSuccessful){
-
-                Toast.makeText(this, "Se ha creado un nuevo usuario", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
-                print(it.result)
-            }
+        if (!isValidEmail(email)) {
+            Toast.makeText(this, "Por favor, introduzca un email válido", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, clave)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(bind.etNombre.text.toString())
+                        .build()
+                    user?.updateProfile(profileUpdates)
+                        ?.addOnCompleteListener { updateTask ->
+                            if (updateTask.isSuccessful) {
+                                Toast.makeText(this, "Se ha creado un nuevo usuario", Toast.LENGTH_SHORT).show()
+                                val enviar = Intent(this, PerfilActivity::class.java)
+                                startActivity(enviar)
+                            } else {
+                                Toast.makeText(this, "Error al asignar displayname", Toast.LENGTH_SHORT).show()
+                                print(updateTask.exception)
+                            }
+                        }
+                } else {
+                    Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
+                    print(task.exception)
+                }
+            }
     }
 }
