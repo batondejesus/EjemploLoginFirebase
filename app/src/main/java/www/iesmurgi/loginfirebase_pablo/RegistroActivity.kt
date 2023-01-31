@@ -30,7 +30,19 @@ class RegistroActivity : AppCompatActivity() {
 
         val btnRegister : Button = bind.btnRegister
         btnRegister.setOnClickListener{
-            crearNuevoUsuario(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
+            if (bind.etPassword.text.toString().isNullOrBlank() && bind.etNombre.text.toString().isNullOrBlank() && bind.etUsuario.text.toString().isNullOrBlank()){
+
+                Toast.makeText(this, "Como pretendes registrarte sin poner ningun dato??", Toast.LENGTH_SHORT).show()
+            }else if(bind.etPassword.text.toString().isNullOrBlank() && bind.etUsuario.text.toString().isNullOrBlank()){
+                Toast.makeText(this, "Introduce nombre de usuario", Toast.LENGTH_SHORT).show()
+
+            }else if (bind.etPassword.text.toString().isNullOrBlank()){
+                Toast.makeText(this, "Introduce contraseña de al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+
+            }else{
+                crearNuevoUsuario(bind.etUsuario.text.toString(), bind.etPassword.text.toString())
+            }
+
         }
 
         val etPassword : EditText = bind.etPassword
@@ -90,8 +102,13 @@ class RegistroActivity : AppCompatActivity() {
                             }
                         }
                 } else {
-                    Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
-                    print(task.exception)
+                    if (bind.etPassword.length() < 6){
+                        Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this, "Usuario ya existente", Toast.LENGTH_SHORT).show()
+                        print(task.exception)
+                    }
+
                 }
             }
     }

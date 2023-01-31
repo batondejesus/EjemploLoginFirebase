@@ -59,27 +59,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
 
         }
-
-
-        val etPassword : EditText = bind.etPassword
-        etPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // Verifica si el contenido tiene 6 o más caracteres
-                if (s?.length!! >= 6) {
-                    // Si tiene 6 o más caracteres, cambia el color del borde a verde
-                    etPassword.setBackgroundResource(www.iesmurgi.loginfirebase_pablo.R.drawable.rounded_edittext)
-                } else {
-                    // Si tiene menos de 6 caracteres, cambia el color del borde a rojo
-                    etPassword.setBackgroundResource(www.iesmurgi.loginfirebase_pablo.R.drawable.rounded_edittext_error)
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        })
     }
 
 
