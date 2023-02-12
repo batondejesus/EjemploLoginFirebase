@@ -97,7 +97,7 @@ class RegistroActivity : AppCompatActivity() {
                                 val enviar = Intent(this, PerfilActivity::class.java)
                                 startActivity(enviar)
                             } else {
-                                Toast.makeText(this, "Error al asignar displayname", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Error al asignar crear el usuario", Toast.LENGTH_SHORT).show()
                                 print(updateTask.exception)
                             }
                         }

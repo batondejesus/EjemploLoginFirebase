@@ -2,24 +2,24 @@ package www.iesmurgi.loginfirebase_pablo
 
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import www.iesmurgi.loginfirebase_pablo.databinding.ActivityMainBinding
 
 
@@ -59,6 +59,22 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
 
         }
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, token)
+            Log.d(TAG, msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            print(msg)
+        }
     }
 
 
@@ -67,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         if (auth.currentUser != null){
             startActivity(Intent(this, PerfilActivity::class.java))
         }
+
     }
 
 
@@ -74,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(www.iesmurgi.loginfirebase_pablo.R.menu.acerca_de, menu)
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -144,11 +162,5 @@ class MainActivity : AppCompatActivity() {
             .set(data)
             .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot correctamente escrito") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error al escribir el documento", e) }
-    }
-
-    fun goToIniciarSesion(){
-        val enviar1 = Intent(this, PerfilActivity::class.java)
-        enviar1.putExtra("nombre","a")
-        startActivity(enviar1)
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Instagram</string>
+    <string name="msg_token_fmt">FCM token: %s</string>
 </resources>

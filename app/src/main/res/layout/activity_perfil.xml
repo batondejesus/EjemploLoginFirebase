@@ -46,20 +46,6 @@
         app:layout_constraintVertical_bias="0.193" />
 
     <Button
-        android:id="@+id/btnCerrar"
-        android:layout_width="206dp"
-        android:layout_height="48dp"
-        android:background="@drawable/button_outline"
-        android:backgroundTint="#000000"
-        android:text="Cerrar sesion"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.905" />
-
-    <Button
         android:id="@+id/btnImagen"
         android:layout_width="206dp"
         android:layout_height="48dp"
@@ -73,6 +59,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.742" />
+
+    <Button
+        android:id="@+id/btnCerrar"
+        android:layout_width="206dp"
+        android:layout_height="48dp"
+        android:background="@drawable/button_outline"
+        android:backgroundTint="#000000"
+        android:text="Cerrar sesión"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.849" />
 
     <ImageView
         android:id="@+id/imagen_perfil"
